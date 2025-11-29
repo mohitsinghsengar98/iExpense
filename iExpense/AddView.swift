@@ -34,14 +34,24 @@ struct AddView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar{
                     Button("Save"){
-                        if name.isEmpty || amount == 0.0{
+                        if name.isEmpty {
                             alertTitle = "Error"
-                            alertMessage = "Please fill all the fields"
+                            alertMessage = "Please fill the name!!"
+                            showingAlert.toggle()
+                            return
+                        }
+                        else if amount == 0.0{
+                            alertTitle = "Error"
+                            alertMessage = "Please fill the amount!!"
                             showingAlert.toggle()
                             return
                         }
                         let expense = ExpenseItem(name: name, type: type, amount: amount)
                         expenses.items.append(expense)
+                        dismiss()
+                    }
+                    
+                    Button("Close", systemImage: "xmark.circle"){
                         dismiss()
                     }
                 }
