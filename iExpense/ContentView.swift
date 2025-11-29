@@ -16,6 +16,7 @@ class User{
 struct ContentView: View {
     @State private var user = User()
     @State private var showingSheet: Bool = false
+    @AppStorage("tapCount") private var tapCount = 0 // App storage do same as using the userdefaults.
     
     var body: some View {
         VStack {
@@ -23,6 +24,10 @@ struct ContentView: View {
             
             TextField("Enter your first name", text: $user.firstName) // here note that when the whole class is observable then all the variables will be used as the observable and also marked as state then they work as observable objects to store and work on.
             TextField("Enter your last name",text: $user.lastName)
+            
+            Button("Tap count: \(tapCount)"){
+                tapCount += 1
+            }
             
             Button("Open New View"){
                 showingSheet.toggle()
