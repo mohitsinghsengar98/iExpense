@@ -37,13 +37,39 @@ struct ContentView: View {
 struct NewScreenView: View {
     @Environment(\.dismiss) var dismiss // to fetch the defined global dismiss method and used it in our struct.
     let name : String
+    @State private var numbers  = [Int]()
+    @State private var currentNumber = 0
     
     var body: some View {
-        Text(name)
-        Button("Dismiss"){
-            dismiss()
-        }.padding()
-            .buttonStyle(.borderedProminent)
+        NavigationStack{
+            VStack{
+                Text(name)
+                List{
+                    ForEach(numbers, id:\.self){
+                        Text("Row \($0)")
+                    }.onDelete(perform: removeRow) // ondelete func is available only inside the foreach means for dynamic rows only.
+                }
+                
+                HStack{
+                    Button("Dismiss"){
+                        dismiss()
+                    }.padding()
+                        .buttonStyle(.borderedProminent)
+                    
+                    Button("Add Row"){
+                        currentNumber += 1
+                        numbers.append(currentNumber)
+                    }.padding()
+                        .buttonStyle(.borderedProminent)
+                }
+            }.toolbar(content: {
+                EditButton()
+            })
+        }
+    }
+    
+    func removeRow(at offsets: IndexSet) {
+        numbers.remove(atOffsets: offsets)
     }
 }
 
