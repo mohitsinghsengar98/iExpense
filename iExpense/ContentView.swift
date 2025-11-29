@@ -7,14 +7,19 @@
 import SwiftUI
 
 @Observable
-class User{
-    var firstName = "Mohit"
-    var lastName = "Sengar"
+class User:Codable{ // create this codeable to be able to save it later in user defaults.
+    var firstName : String
+    var lastName : String
+    
+    init(firstName: String, lastName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+    }
 }
 // Use the class to store because when we use struct it will work but whenever the values update it will create the multiple copies of that struct on every change.
 
 struct ContentView: View {
-    @State private var user = User()
+    @State private var user = User(firstName:"Saurav", lastName: "Kapoor")
     @State private var showingSheet: Bool = false
     @AppStorage("tapCount") private var tapCount = 0 // App storage do same as using the userdefaults.
     
@@ -27,6 +32,13 @@ struct ContentView: View {
             
             Button("Tap count: \(tapCount)"){
                 tapCount += 1
+            }
+            
+            Button("Save Data"){
+                let encoder = JSONEncoder()
+                if let data = try? encoder.encode(user){
+                    UserDefaults.standard.set(data, forKey: "userData")
+                }
             }
             
             Button("Open New View"){
