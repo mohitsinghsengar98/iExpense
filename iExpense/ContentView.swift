@@ -4,7 +4,6 @@
 //
 //  Created by Mohit Sengar on 29/11/25.
 //
-import Observation // this is to see the implementation of the @observable macro.
 import SwiftUI
 
 @Observable
@@ -16,6 +15,7 @@ class User{
 
 struct ContentView: View {
     @State private var user = User()
+    @State private var showingSheet: Bool = false
     
     var body: some View {
         VStack {
@@ -23,8 +23,27 @@ struct ContentView: View {
             
             TextField("Enter your first name", text: $user.firstName) // here note that when the whole class is observable then all the variables will be used as the observable and also marked as state then they work as observable objects to store and work on.
             TextField("Enter your last name",text: $user.lastName)
+            
+            Button("Open New View"){
+                showingSheet.toggle()
+            }
+        }.sheet(isPresented: $showingSheet){
+            NewScreenView(name: "\(user.firstName) \(user.lastName)")
         }
         .padding()
+    }
+}
+
+struct NewScreenView: View {
+    @Environment(\.dismiss) var dismiss // to fetch the defined global dismiss method and used it in our struct.
+    let name : String
+    
+    var body: some View {
+        Text(name)
+        Button("Dismiss"){
+            dismiss()
+        }.padding()
+            .buttonStyle(.borderedProminent)
     }
 }
 
