@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct ExpenseItem{
+struct ExpenseItem:Identifiable{ // to tell this is identifiable. and now i can delete the id from for each.
+    let id = UUID() // unique id every time.
     let name:String
     let type:String
     let amount :Double
@@ -25,7 +26,7 @@ struct ContentView: View {
         NavigationStack{
             VStack {
                 List{
-                    ForEach(expenses.items, id:\.name){ item in
+                    ForEach(expenses.items){ item in
                         Text(item.name)
                     }.onDelete(perform: removeItem)
                 }
