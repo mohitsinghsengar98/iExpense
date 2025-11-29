@@ -4,7 +4,7 @@
 //
 //  Created by Mohit Sengar on 29/11/25.
 //
-
+import Observation // this is to see the implementation of the @observable macro.
 import SwiftUI
 
 @Observable
